@@ -4,106 +4,93 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#071426">
-<title>Bio Beast — Water Molecules 3D Lab</title>
+<title>Bio Beast — Salt & pH Interactive Lab</title>
 <style>
-:root{--bg:#071426;--panel:#10243c;--cyan:#56d9ff;--muted:#a9bfd2;--red:#ff5967;--green:#55e6a5}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#15395a 0,#071426 58%);color:#f4f9ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-header{padding:18px 18px 10px;max-width:1100px;margin:auto}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:2px;font-weight:800}
-h1{font-size:clamp(23px,5vw,36px);margin:5px 0 2px;line-height:1.1}header p{margin:6px 0;color:var(--muted);font-size:14px}
-main{max-width:1100px;margin:auto;padding:8px 14px 28px;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:14px}
-.stageWrap,.side{background:rgba(13,32,54,.94);border:1px solid #244968;border-radius:20px;overflow:hidden;box-shadow:0 14px 40px #0005}
-.stageTop{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid #244968;font-size:13px;color:var(--muted)}
-.status{color:var(--green);font-weight:800}#scene{display:block;width:100%;height:min(65vh,590px);min-height:390px;touch-action:none;background:radial-gradient(ellipse at center,#0d2945 0,#08182b 72%)}
-.controls{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border-top:1px solid #244968}
-button{border:1px solid #356080;background:#173653;color:white;border-radius:12px;padding:11px 13px;font-weight:750;font-size:13px;cursor:pointer}
-button.primary{background:linear-gradient(135deg,#087ca9,#1765a8);border-color:#48cfff}button:active{transform:scale(.98)}
-.side{padding:15px;display:flex;flex-direction:column;gap:13px}h2{font-size:16px;margin:0}.hint{font-size:13px;color:var(--muted);line-height:1.55;margin:0}
-.legend{display:grid;gap:9px;font-size:13px}.key{display:flex;align-items:center;gap:9px}.dot{width:13px;height:13px;border-radius:50%;display:inline-block}.line{width:28px;border-top:3px solid #e8f4ff}.dash{width:28px;border-top:3px dashed var(--cyan)}
-.info{padding:12px;border-radius:12px;background:#0a1b2d;border:1px solid #244968;min-height:92px;font-size:13px;line-height:1.5;color:#d8e8f5}
-.mission{padding:12px;border-radius:12px;background:#102e3c;border:1px solid #23617a;font-size:13px;line-height:1.5}.counter{font-size:12px;color:var(--muted)}.counter b{color:white}
-footer{max-width:1100px;margin:0 auto;padding:0 16px 22px;color:#7894ad;font-size:11px;line-height:1.5}
-@media(max-width:760px){main{grid-template-columns:1fr}.side{order:2}#scene{height:55vh;min-height:370px}.stageTop{font-size:12px}}
+:root{--bg:#071426;--panel:#10243c;--cyan:#56d9ff;--muted:#adc2d5;--green:#55e6a5;--orange:#ffbd66}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#173b5a,#071426 60%);color:#f4f9ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{max-width:1100px;margin:auto;padding:18px 16px 8px}.eyebrow{font-size:12px;letter-spacing:2px;color:var(--cyan);font-weight:800}h1{font-size:clamp(24px,5vw,36px);margin:5px 0}header p{color:var(--muted);margin:0;font-size:14px}
+main{max-width:1100px;margin:auto;padding:10px 14px 26px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+.panel{background:#0d2036;border:1px solid #244968;border-radius:20px;overflow:hidden;box-shadow:0 14px 38px #0005}
+.top{display:flex;justify-content:space-between;gap:10px;padding:13px 15px;border-bottom:1px solid #244968;color:var(--muted);font-size:13px}.status{color:var(--green);font-weight:800}
+.lab{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
+.beakerArea{min-height:300px;display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(ellipse,#123654,#09192b 70%);border-radius:16px;border:1px solid #1d4564}
+svg{width:min(100%,340px);height:300px;overflow:visible}
+.beaker{fill:#a8e8ff;fill-opacity:.12;stroke:#b8eaff;stroke-width:4}.water{fill:#3dbbe8;fill-opacity:.25}.bubble{fill:#d7f6ff;opacity:.85}.ion{font-size:15px;font-weight:800;fill:#fff}.ionbg{fill:#123c5a;stroke:#8adfff;stroke-width:1.4}
+.meter{background:#09192b;border:1px solid #244968;border-radius:16px;padding:14px}
+.meter h2{font-size:15px;margin:0 0 10px}.reading{font-size:42px;font-weight:900;line-height:1.05}.readlabel{font-size:13px;color:var(--muted);margin:5px 0 14px}
+.scale{height:16px;border-radius:20px;background:linear-gradient(90deg,#ed5555 0%,#f49b52 25%,#e8d65a 50%,#65d9a1 72%,#4ca9ef 100%);position:relative;margin:22px 0 7px}
+.needle{position:absolute;top:-7px;width:4px;height:30px;background:#fff;border:1px solid #14283b;left:50%;border-radius:3px;box-shadow:0 0 7px #fff}
+.scaleLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+.controls{padding:0 16px 16px;display:flex;gap:8px;flex-wrap:wrap}
+button{background:#173653;border:1px solid #356080;color:white;border-radius:12px;padding:11px 13px;font-weight:750;font-size:13px}
+button.primary{background:linear-gradient(135deg,#087ca9,#1765a8);border-color:#48cfff}
+button:disabled{opacity:.4}
+.side{padding:16px;display:flex;flex-direction:column;gap:12px}
+h2{font-size:16px;margin:0}.hint{font-size:13px;color:var(--muted);line-height:1.55;margin:0}
+.salts{display:grid;gap:8px}.salt{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:8px}.salt.active{outline:2px solid var(--cyan);background:#174663}.salt small{display:block;color:#b9cddd;font-weight:500;margin-top:3px}
+.card{background:#09192b;border:1px solid #244968;border-radius:13px;padding:12px;font-size:13px;line-height:1.5;color:#dceaf5}
+.equation{font-family:ui-monospace,monospace;color:#9be7ff;font-size:12px;overflow-wrap:anywhere;margin-top:6px}
+.result{color:var(--green);font-weight:800}.tag{display:inline-block;border-radius:20px;padding:3px 9px;background:#163c4e;color:#9be7ff;font-size:11px;font-weight:800}
+footer{max-width:1100px;margin:auto;padding:0 16px 22px;color:#7894ad;font-size:11px;line-height:1.5}
+@media(max-width:760px){main{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.beakerArea{min-height:270px}.side{order:2}}
 </style>
 </head>
 <body>
-<header><div class="eyebrow">BIO BEAST • INTERACTIVE SCIENCE</div><h1>Water Molecules 3D Lab</h1><p>Drag molecules in 3D, rotate the view, and explore polarity and hydrogen bonding.</p></header>
+<header><div class="eyebrow">BIO BEAST • INTERACTIVE SCIENCE</div><h1>Salt & pH Investigation</h1><p>Choose a salt, dissolve it in water, and investigate how its ions affect the pH.</p></header>
 <main>
-<section class="stageWrap">
- <div class="stageTop"><span>WATER MOLECULES • 3D INTERACTIVE MODEL</span><span class="status" id="status">Ready to explore</span></div>
- <div id="scene" aria-label="Interactive three dimensional water molecule simulation"></div>
- <div class="controls">
-  <button class="primary" id="add">＋ Add molecule</button><button id="rotate">↻ Rotate selected</button><button id="labels">Hide labels</button><button id="reset">Reset scene</button>
+<section class="panel">
+ <div class="top"><span>VIRTUAL CHEMISTRY LAB • AQUEOUS SOLUTIONS</span><span class="status" id="status">Select a salt</span></div>
+ <div class="lab">
+  <div class="beakerArea">
+   <svg viewBox="0 0 320 300" role="img" aria-label="Beaker showing dissolved ions">
+    <defs><clipPath id="inside"><path d="M73 63 L88 263 Q160 280 232 263 L247 63 Z"/></clipPath><linearGradient id="liq" x2="0" y2="1"><stop stop-color="#65dfff" stop-opacity=".25"/><stop offset="1" stop-color="#168bc5" stop-opacity=".55"/></linearGradient></defs>
+    <path class="beaker" d="M63 55 L80 266 Q160 286 240 266 L257 55 M55 55 H265"/>
+    <g clip-path="url(#inside)"><path id="liquid" d="M70 145 Q160 137 250 145 L260 290 H60 Z" fill="url(#liq)"/><g id="ions"></g><g id="crystals"></g></g>
+    <text x="160" y="34" text-anchor="middle" fill="#c9eaff" font-size="12" font-weight="700">H₂O + SELECTED SALT</text>
+    <text id="beakerLabel" x="160" y="292" text-anchor="middle" fill="#d6efff" font-size="10">Empty beaker</text>
+   </svg>
+  </div>
+  <div class="meter">
+   <h2>Digital pH meter</h2><div class="reading" id="ph">—</div><div class="readlabel" id="phLabel">Waiting for solution</div>
+   <div class="scale"><div class="needle" id="needle"></div></div><div class="scaleLabels"><span>0 Acidic</span><span>7 Neutral</span><span>14 Basic</span></div>
+   <div class="card" style="margin-top:17px"><span class="tag">OBSERVATION</span><p id="observation" style="margin:8px 0 0">Choose one of the three salts, then press “Dissolve salt”.</p></div>
+  </div>
  </div>
+ <div class="controls"><button class="primary" id="dissolve">＋ Dissolve salt</button><button id="stir" disabled>↻ Stir solution</button><button id="water" disabled>＋ Add water</button><button id="reset">Reset experiment</button></div>
 </section>
-<aside class="side">
- <h2>How to experiment</h2><p class="hint">1. Drag a molecule by touching one of its atoms.<br>2. Rotate the whole 3D view by dragging empty space; pinch to zoom.<br>3. Bring a partially positive H (δ+) near another molecule's O (δ−).<br>4. Watch the dashed line when a suitable hydrogen-bond arrangement is detected.</p>
- <div class="legend">
-  <div class="key"><i class="dot" style="background:#ff5967"></i> Oxygen (δ−)</div>
-  <div class="key"><i class="dot" style="background:#f2f7ff;border:1px solid #a8c0d4"></i> Hydrogen (δ+)</div>
-  <div class="key"><i class="line"></i> Covalent bond (O–H)</div>
-  <div class="key"><i class="dash"></i> Hydrogen bond (between molecules)</div>
+<aside class="panel side">
+ <h2>Choose the salt</h2>
+ <div class="salts">
+  <button class="salt active" data-salt="nahco3"><span><b>Sodium bicarbonate</b><small>NaHCO₃</small></span><span>①</span></button>
+  <button class="salt" data-salt="nh4hco3"><span><b>Ammonium bicarbonate</b><small>NH₄HCO₃</small></span><span>②</span></button>
+  <button class="salt" data-salt="nh4cl"><span><b>Ammonium chloride</b><small>NH₄Cl</small></span><span>③</span></button>
  </div>
- <div class="info" id="info"><b>Explore:</b> Water has a bent molecular shape. Polar covalent O–H bonds are within each molecule; hydrogen bonds are attractions between different molecules.</div>
- <div class="mission"><b>MISSION</b><br>Build a connected network of 3 water molecules. Move and rotate them to explore how orientation affects hydrogen bonding.</div>
- <div class="counter">Hydrogen bonds formed: <b id="bondCount">0</b> &nbsp;•&nbsp; Molecules: <b id="molCount">3</b></div>
+ <div class="card"><b id="saltTitle">Sodium bicarbonate</b><div class="equation" id="equation">NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)</div><p id="chem" style="margin:8px 0 0">The bicarbonate ion can accept a proton from water, producing a mildly basic solution.</p></div>
+ <div class="card"><b>Think like a scientist</b><p style="margin:7px 0 0">Which ion reacts with water? Which ion is mostly a spectator? Compare the three pH readings under the same stated conditions.</p></div>
+ <div class="card"><b>Experiment controls</b><p id="condition" style="margin:7px 0 0">Model conditions: room temperature, same initial water volume, and equal small salt portions. Values are illustrative classroom estimates.</p></div>
 </aside>
 </main>
-<footer>Scientific learning model: atom sizes and distances are schematic, not to scale. Hydrogen-bond detection is simplified for learning; real interactions depend on 3D distance, orientation, and the molecular environment. Requires an internet connection to load the 3D graphics library.</footer>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
-<script type="module">
-import * as THREE from 'three';
-import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-
-const host=document.getElementById('scene'),status=document.getElementById('status'),info=document.getElementById('info');
-const bondCount=document.getElementById('bondCount'),molCount=document.getElementById('molCount');
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x08182b);scene.fog=new THREE.Fog(0x08182b,13,27);
-const camera=new THREE.PerspectiveCamera(42,1,.1,100);camera.position.set(0,5.8,12.5);
-const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;host.appendChild(renderer.domElement);
-const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.07;controls.minDistance=6;controls.maxDistance=22;controls.target.set(0,0,0);
-scene.add(new THREE.HemisphereLight(0xc9eaff,0x18314b,2.1));
-const keyLight=new THREE.DirectionalLight(0xffffff,2.4);keyLight.position.set(5,8,7);scene.add(keyLight);
-const rim=new THREE.PointLight(0x39cfff,25,18);rim.position.set(-5,2,3);scene.add(rim);
-const grid=new THREE.GridHelper(18,18,0x24506e,0x16334d);grid.position.y=-2.05;scene.add(grid);
-const atomGeoO=new THREE.SphereGeometry(.48,32,24),atomGeoH=new THREE.SphereGeometry(.29,28,20),bondGeo=new THREE.CylinderGeometry(.075,.075,1,16);
-const matO=new THREE.MeshPhysicalMaterial({color:0xff5967,roughness:.25,metalness:.05,clearcoat:.65});
-const matH=new THREE.MeshPhysicalMaterial({color:0xf4f8ff,roughness:.22,metalness:.02,clearcoat:.7});
-const covMat=new THREE.MeshStandardMaterial({color:0xdceafa,roughness:.35});
-const hbMat=new THREE.LineDashedMaterial({color:0x56d9ff,dashSize:.16,gapSize:.12,transparent:true,opacity:.95});
-const molecules=[];let selected=null,showLabels=true,nextId=1,dragging=null,dragPlane=new THREE.Plane(new THREE.Vector3(0,0,1),0);
-const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(),dragPoint=new THREE.Vector3(),offset=new THREE.Vector3();
-function makeLabel(text,color){const c=document.createElement('canvas');c.width=128;c.height=64;const x=c.getContext('2d');x.clearRect(0,0,128,64);x.font='bold 38px system-ui';x.textAlign='center';x.textBaseline='middle';x.fillStyle=color;x.shadowColor='#061321';x.shadowBlur=5;x.fillText(text,64,32);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false}));s.scale.set(.72,.36,1);return s}
-function setCylinder(mesh,a,b){const d=new THREE.Vector3().subVectors(b,a);mesh.position.copy(a).add(b).multiplyScalar(.5);mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.clone().normalize());mesh.scale.set(1,d.length(),1)}
-function createMolecule(position,rotation=0){const g=new THREE.Group();g.position.copy(position);g.rotation.y=rotation;g.userData.id=nextId++;
- const O=new THREE.Mesh(atomGeoO,matO);O.userData.atom='O';g.add(O);
- const ang=104.5*Math.PI/180,arm=.92;
- const h1pos=new THREE.Vector3(Math.sin(ang/2)*arm,Math.cos(ang/2)*arm,0);
- const h2pos=new THREE.Vector3(-Math.sin(ang/2)*arm,Math.cos(ang/2)*arm,0);
- const H1=new THREE.Mesh(atomGeoH,matH);H1.position.copy(h1pos);H1.userData.atom='H';g.add(H1);
- const H2=new THREE.Mesh(atomGeoH,matH);H2.position.copy(h2pos);H2.userData.atom='H';g.add(H2);
- const b1=new THREE.Mesh(bondGeo,covMat),b2=new THREE.Mesh(bondGeo,covMat);setCylinder(b1,new THREE.Vector3(0,0,0),h1pos);setCylinder(b2,new THREE.Vector3(0,0,0),h2pos);g.add(b1,b2);
- const labels=[makeLabel('δ−','#ffb7bd'),makeLabel('δ+','#d8efff'),makeLabel('δ+','#d8efff')];
- labels[0].position.set(0,-.65,0);labels[1].position.copy(h1pos).add(new THREE.Vector3(0,-.38,.04));labels[2].position.copy(h2pos).add(new THREE.Vector3(0,-.38,.04));labels.forEach(s=>g.add(s));g.userData.labels=labels;
- g.userData.H=[H1,H2];g.userData.O=O;g.userData.atoms=[O,H1,H2];g.userData.covalent=[b1,b2];scene.add(g);molecules.push(g);return g}
-const hbGroup=new THREE.Group();scene.add(hbGroup);
-function worldPos(obj){return obj.getWorldPosition(new THREE.Vector3())}
-function updateHydrogenBonds(){hbGroup.clear();let count=0;
- for(const donor of molecules){for(const H of donor.userData.H){const hp=worldPos(H);const donorO=worldPos(donor.userData.O);const dh=hp.clone().sub(donorO).normalize();
- for(const acceptor of molecules){if(acceptor===donor)continue;const op=worldPos(acceptor.userData.O),v=op.clone().sub(hp),d=v.length();if(d<2.15&&d>.65){const alignment=dh.dot(v.clone().normalize());if(alignment>-.45){const geo=new THREE.BufferGeometry().setFromPoints([hp,op]);const line=new THREE.Line(geo,hbMat);line.computeLineDistances();hbGroup.add(line);count++}}}}}
- bondCount.textContent=count;molCount.textContent=molecules.length;status.textContent=count?'Hydrogen bond detected':'Move molecules to explore';
+<footer>Important: displayed pH values are approximate teaching values, not certified measurements. Real pH depends on concentration, temperature, water quality, and CO₂ exchange with air. Bicarbonate is amphiprotic. This visual model illustrates the dominant acid–base behaviour and is not a full equilibrium solver.</footer>
+<script>
+const data={
+ nahco3:{name:'Sodium bicarbonate',formula:'NaHCO₃',eq:'NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)',ph:8.3,label:'Mildly basic',chem:'HCO₃⁻ can act as a base by accepting H⁺ from water. The solution is usually mildly basic. Na⁺ is essentially a spectator ion in this acid–base explanation.',obs:'The solution becomes mildly basic. Bicarbonate can accept a proton from water, so the pH is slightly above 7.'},
+ nh4hco3:{name:'Ammonium bicarbonate',formula:'NH₄HCO₃',eq:'NH₄HCO₃(s) → NH₄⁺(aq) + HCO₃⁻(aq)',ph:7.8,label:'Near neutral / slightly basic',chem:'NH₄⁺ is a weak acid, while HCO₃⁻ is amphiprotic (it can donate or accept H⁺). Their competing effects give a solution that is commonly near neutral to slightly basic under typical dilute conditions.',obs:'The ions have competing acid–base effects. HCO₃⁻ can accept or donate H⁺, while NH₄⁺ is a weak acid. The solution is often near neutral to slightly basic.'},
+ nh4cl:{name:'Ammonium chloride',formula:'NH₄Cl',eq:'NH₄Cl(s) → NH₄⁺(aq) + Cl⁻(aq)',ph:5.3,label:'Acidic',chem:'NH₄⁺ reacts with water and donates a proton, producing H₃O⁺. Cl⁻ is the conjugate base of a strong acid and is essentially a spectator ion.',obs:'The solution becomes acidic because NH₄⁺ donates a proton to water, increasing H₃O⁺. Chloride is essentially a spectator ion.'}
+};
+let selected='nahco3',dissolved=false,waterAdded=0,stirred=false;
+const $=id=>document.getElementById(id);
+function choose(key){selected=key;document.querySelectorAll('.salt').forEach(b=>b.classList.toggle('active',b.dataset.salt===key));reset(false);const d=data[key];$('saltTitle').textContent=d.name;$('equation').textContent=d.eq;$('chem').textContent=d.chem;$('status').textContent='Salt selected'}
+function render(){const d=data[selected];if(!dissolved){$('ph').textContent='—';$('phLabel').textContent='Waiting for solution';$('needle').style.left='50%';$('observation').textContent='Add the selected salt to the water to begin.';$('liquid').setAttribute('d','M70 145 Q160 137 250 145 L260 290 H60 Z');$('ions').innerHTML='';$('beakerLabel').textContent='Water ready';$('status').textContent='Ready to dissolve';return}
+ const ph=Math.max(0,Math.min(14,d.ph+(waterAdded? (7-d.ph)*(waterAdded*.08):0)));$('ph').textContent=ph.toFixed(1);$('phLabel').textContent=ph<6.8?'Acidic solution':ph>7.2?'Basic solution':'Near neutral solution';$('needle').style.left=(ph/14*100)+'%';$('observation').textContent=d.obs+(waterAdded?' Dilution added; exact pH change depends on the real solution equilibrium.':'');$('status').textContent='Salt dissolved';$('beakerLabel').textContent=d.formula+' dissolved';
+ const ions=$('ions');ions.innerHTML='';const labels=selected==='nahco3'?['Na⁺','HCO₃⁻']:selected==='nh4hco3'?['NH₄⁺','HCO₃⁻']:['NH₄⁺','Cl⁻'];
+ for(let i=0;i<12;i++){let x=92+(i%4)*44+(Math.random()*8-4),y=165+Math.floor(i/4)*34+(Math.random()*8-4);let g=document.createElementNS('http://www.w3.org/2000/svg','g');let c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',17);c.setAttribute('class','ionbg');let t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',x);t.setAttribute('y',y+4);t.setAttribute('text-anchor','middle');t.setAttribute('class','ion');t.setAttribute('font-size',labels[i%2].length>4?'10':'13');t.textContent=labels[i%2];g.append(c,t);ions.append(g)}
 }
-function selectMol(m){if(selected){selected.traverse(o=>{if(o.isMesh&&o.userData.atom)o.material=o.userData.atom==='O'?matO:matH})}selected=m;if(selected){selected.traverse(o=>{if(o.isMesh&&o.userData.atom){o.material=o.userData.atom==='O'?new THREE.MeshPhysicalMaterial({color:0xff7580,emissive:0x541018,roughness:.22}):new THREE.MeshPhysicalMaterial({color:0xffffff,emissive:0x1c344c})}})}}
-function resize(){const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(host);resize();
-function pick(e){const r=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-r.left)/r.width)*2-1;pointer.y=-((e.clientY-r.top)/r.height)*2+1;raycaster.setFromCamera(pointer,camera);const hits=raycaster.intersectObjects(molecules.flatMap(m=>m.userData.atoms),false);return hits.length?hits[0].object.parent:null}
-renderer.domElement.addEventListener('pointerdown',e=>{const m=pick(e);if(!m)return;selectMol(m);controls.enabled=false;raycaster.setFromCamera(pointer,camera);dragPlane.set(new THREE.Vector3(0,0,1),-m.position.z);if(raycaster.ray.intersectPlane(dragPlane,dragPoint)){offset.copy(m.position).sub(dragPoint);dragging=m;renderer.domElement.setPointerCapture(e.pointerId)}info.innerHTML='<b>Molecule selected.</b> Drag the atom to move the whole water molecule. Drag empty space to orbit the 3D camera.';});
-renderer.domElement.addEventListener('pointermove',e=>{if(!dragging)return;const r=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-r.left)/r.width)*2-1;pointer.y=-((e.clientY-r.top)/r.height)*2+1;raycaster.setFromCamera(pointer,camera);if(raycaster.ray.intersectPlane(dragPlane,dragPoint)){dragging.position.copy(dragPoint.add(offset));updateHydrogenBonds()}});
-function endDrag(){if(dragging){dragging=null;controls.enabled=true;updateHydrogenBonds();if(Number(bondCount.textContent)>0)info.innerHTML='<b>Hydrogen bond detected!</b> A partially positive hydrogen on one molecule is close to an oxygen on another molecule. This is an intermolecular attraction, not a covalent bond.'}}renderer.domElement.addEventListener('pointerup',endDrag);renderer.domElement.addEventListener('pointercancel',endDrag);
-function addMol(){const n=molecules.length;const pos=new THREE.Vector3(((n%3)-1)*2.25,((Math.floor(n/3))%2)*1.35-0.3,(n%2?-.7:.7));const m=createMolecule(pos,Math.random()*Math.PI*2);selectMol(m);updateHydrogenBonds();info.innerHTML='<b>New water molecule added.</b> Drag it into the network and rotate the 3D view to inspect its shape.'}
-function reset(){while(molecules.length){const m=molecules.pop();scene.remove(m)}hbGroup.clear();nextId=1;createMolecule(new THREE.Vector3(-2.1,.1,0),-.45);createMolecule(new THREE.Vector3(1.7,.15,-.3),2.25);createMolecule(new THREE.Vector3(0,-1.25,.9),.7);selectMol(null);camera.position.set(0,5.8,12.5);controls.target.set(0,0,0);controls.update();updateHydrogenBonds();info.innerHTML='<b>Scene reset.</b> Drag a molecule by one of its atoms. Rotate the camera by dragging empty space.'}
-document.getElementById('add').onclick=addMol;
-document.getElementById('rotate').onclick=()=>{if(!selected){info.innerHTML='<b>Select a molecule first.</b> Touch one of its atoms.';return}selected.rotation.y+=Math.PI/4;selected.rotation.z+=Math.PI/8;updateHydrogenBonds();info.innerHTML='<b>Orientation changed.</b> Rotate the molecule and observe how its hydrogen-bond geometry changes.'};
-document.getElementById('labels').onclick=e=>{showLabels=!showLabels;molecules.forEach(m=>m.userData.labels.forEach(s=>s.visible=showLabels));e.target.textContent=showLabels?'Hide labels':'Show labels'};
-document.getElementById('reset').onclick=reset;
-reset();
-function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)}animate();
+function reset(update=true){dissolved=false;waterAdded=0;stirred=false;$('stir').disabled=true;$('water').disabled=true;$('dissolve').disabled=false;if(update)render();else render()}
+document.querySelectorAll('.salt').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.salt)));
+$('dissolve').onclick=()=>{dissolved=true;$('stir').disabled=false;$('water').disabled=false;$('dissolve').disabled=true;render();$('observation').textContent=data[selected].obs};
+$('stir').onclick=()=>{stirred=!stirred;$('ions').style.transition='transform .5s';$('ions').style.transform=stirred?'translate(5px,-4px)':'translate(0,0)';$('observation').textContent='Stirring helps the salt dissolve and spreads dissolved ions through the water. Stirring does not change the identity of the ions.'};
+$('water').onclick=()=>{waterAdded=Math.min(5,waterAdded+1);$('liquid').setAttribute('d',`M70 ${145+waterAdded*5} Q160 ${137+waterAdded*5} 250 ${145+waterAdded*5} L260 290 H60 Z`);render()};
+$('reset').onclick=()=>reset();
+choose('nahco3');
 </script>
 </body></html>
