@@ -1,96 +1,81 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#071426">
-<title>Bio Beast — Salt & pH Interactive Lab</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#061a2b"><title>Bio Beast — Deep Ocean Explorer</title>
 <style>
-:root{--bg:#071426;--panel:#10243c;--cyan:#56d9ff;--muted:#adc2d5;--green:#55e6a5;--orange:#ffbd66}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#173b5a,#071426 60%);color:#f4f9ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-header{max-width:1100px;margin:auto;padding:18px 16px 8px}.eyebrow{font-size:12px;letter-spacing:2px;color:var(--cyan);font-weight:800}h1{font-size:clamp(24px,5vw,36px);margin:5px 0}header p{color:var(--muted);margin:0;font-size:14px}
-main{max-width:1100px;margin:auto;padding:10px 14px 26px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
-.panel{background:#0d2036;border:1px solid #244968;border-radius:20px;overflow:hidden;box-shadow:0 14px 38px #0005}
-.top{display:flex;justify-content:space-between;gap:10px;padding:13px 15px;border-bottom:1px solid #244968;color:var(--muted);font-size:13px}.status{color:var(--green);font-weight:800}
-.lab{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center}
-.beakerArea{min-height:300px;display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(ellipse,#123654,#09192b 70%);border-radius:16px;border:1px solid #1d4564}
-svg{width:min(100%,340px);height:300px;overflow:visible}
-.beaker{fill:#a8e8ff;fill-opacity:.12;stroke:#b8eaff;stroke-width:4}.water{fill:#3dbbe8;fill-opacity:.25}.bubble{fill:#d7f6ff;opacity:.85}.ion{font-size:15px;font-weight:800;fill:#fff}.ionbg{fill:#123c5a;stroke:#8adfff;stroke-width:1.4}
-.meter{background:#09192b;border:1px solid #244968;border-radius:16px;padding:14px}
-.meter h2{font-size:15px;margin:0 0 10px}.reading{font-size:42px;font-weight:900;line-height:1.05}.readlabel{font-size:13px;color:var(--muted);margin:5px 0 14px}
-.scale{height:16px;border-radius:20px;background:linear-gradient(90deg,#ed5555 0%,#f49b52 25%,#e8d65a 50%,#65d9a1 72%,#4ca9ef 100%);position:relative;margin:22px 0 7px}
-.needle{position:absolute;top:-7px;width:4px;height:30px;background:#fff;border:1px solid #14283b;left:50%;border-radius:3px;box-shadow:0 0 7px #fff}
-.scaleLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
-.controls{padding:0 16px 16px;display:flex;gap:8px;flex-wrap:wrap}
-button{background:#173653;border:1px solid #356080;color:white;border-radius:12px;padding:11px 13px;font-weight:750;font-size:13px}
-button.primary{background:linear-gradient(135deg,#087ca9,#1765a8);border-color:#48cfff}
-button:disabled{opacity:.4}
-.side{padding:16px;display:flex;flex-direction:column;gap:12px}
-h2{font-size:16px;margin:0}.hint{font-size:13px;color:var(--muted);line-height:1.55;margin:0}
-.salts{display:grid;gap:8px}.salt{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:8px}.salt.active{outline:2px solid var(--cyan);background:#174663}.salt small{display:block;color:#b9cddd;font-weight:500;margin-top:3px}
-.card{background:#09192b;border:1px solid #244968;border-radius:13px;padding:12px;font-size:13px;line-height:1.5;color:#dceaf5}
-.equation{font-family:ui-monospace,monospace;color:#9be7ff;font-size:12px;overflow-wrap:anywhere;margin-top:6px}
-.result{color:var(--green);font-weight:800}.tag{display:inline-block;border-radius:20px;padding:3px 9px;background:#163c4e;color:#9be7ff;font-size:11px;font-weight:800}
-footer{max-width:1100px;margin:auto;padding:0 16px 22px;color:#7894ad;font-size:11px;line-height:1.5}
-@media(max-width:760px){main{grid-template-columns:1fr}.lab{grid-template-columns:1fr}.beakerArea{min-height:270px}.side{order:2}}
-</style>
-</head>
+:root{--cyan:#66dcff;--muted:#a9c5d8;--panel:#0b2940}
+*{box-sizing:border-box}body{margin:0;color:#f1f8ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(#0b5c83 0%,#073652 28%,#06243a 56%,#041525 100%);min-height:100vh}
+header{max-width:1100px;margin:auto;padding:18px 16px 10px}.eyebrow{color:#8de8ff;font-weight:850;letter-spacing:2px;font-size:12px}h1{font-size:clamp(24px,5vw,36px);margin:4px 0}header p{color:#c1d8e8;margin:0;font-size:14px}
+main{max-width:1100px;margin:auto;padding:10px 14px 28px;display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:14px}
+.panel{background:rgba(5,28,46,.88);border:1px solid #286080;border-radius:19px;overflow:hidden;box-shadow:0 14px 38px #00101d66}
+.top{display:flex;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid #28506a;color:var(--muted);font-size:12px}
+#ocean{height:380px;position:relative;overflow:hidden;background:linear-gradient(#1b85b2 0%,#116080 24%,#0a3e5d 45%,#062b45 68%,#031728 100%)}
+#ocean:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(105deg,transparent 0 70px,#b5efff0c 72px 74px,transparent 78px 145px);pointer-events:none}
+.sunlight{position:absolute;top:0;left:10%;width:80%;height:65%;background:linear-gradient(160deg,#d9fbff33,transparent 70%);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);transition:opacity .3s}
+.depthline{position:absolute;left:0;right:0;border-top:1px dashed #bdefff55;color:#c5e7f5;font-size:10px;padding:3px 8px}
+#fish{position:absolute;width:min(62%,330px);height:150px;left:50%;top:50%;transform:translate(-50%,-50%);transition:filter .3s}
+.fishbody{fill:#75b9c7;stroke:#c7f6ff;stroke-width:2}.fin{fill:#4d8f9f;stroke:#c7f6ff;stroke-width:1.5}.eye{fill:#071522;stroke:#e5faff;stroke-width:2}.bladder{fill:#b9edff55;stroke:#baf4ff;stroke-width:2;stroke-dasharray:4 3}.gill{fill:none;stroke:#d5f6ff;stroke-width:2;stroke-linecap:round}
+#glow{position:absolute;right:13%;top:20%;width:12px;height:12px;border-radius:50%;background:#8bfff1;box-shadow:0 0 25px 12px #66ffe866;opacity:0;transition:opacity .3s}
+.zone{position:absolute;left:12px;top:12px;background:#061d31bb;border:1px solid #75c9e566;padding:7px 10px;border-radius:10px;font-weight:800;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
+.stat{background:#071d30;border:1px solid #204b66;border-radius:12px;padding:10px}.stat span{display:block;color:var(--muted);font-size:11px}.stat b{font-size:21px}
+.controls{padding:4px 14px 15px}.controls label{display:flex;justify-content:space-between;font-weight:800;font-size:13px}.controls input{width:100%;accent-color:#5bdcff;margin:14px 0 6px}.ticks{display:flex;justify-content:space-between;color:#9dbbd0;font-size:10px}
+.side{padding:15px;display:flex;flex-direction:column;gap:12px}h2{font-size:16px;margin:0}.muted{color:var(--muted);font-size:13px;line-height:1.5;margin:0}
+.adapt{background:#071d30;border:1px solid #204b66;border-radius:13px;padding:11px}.adapt b{font-size:13px;color:#9deaff}.adapt p{margin:5px 0 0;color:#d7e8f4;font-size:12px;line-height:1.45}
+button{background:#174563;color:white;border:1px solid #36728f;padding:10px 12px;border-radius:11px;font-weight:800}
+footer{max-width:1100px;margin:auto;padding:0 16px 24px;color:#9bb6c9;font-size:11px;line-height:1.5}
+@media(max-width:760px){main{grid-template-columns:1fr}#ocean{height:340px}.side{order:2}.stats{gap:6px}.stat b{font-size:18px}}
+</style></head>
 <body>
-<header><div class="eyebrow">BIO BEAST • INTERACTIVE SCIENCE</div><h1>Salt & pH Investigation</h1><p>Choose a salt, dissolve it in water, and investigate how its ions affect the pH.</p></header>
+<header><div class="eyebrow">BIO BEAST • INTERACTIVE SCIENCE</div><h1>Deep Ocean Explorer</h1><p>Take a virtual dive and discover how life adapts to changing ocean conditions.</p></header>
 <main>
 <section class="panel">
- <div class="top"><span>VIRTUAL CHEMISTRY LAB • AQUEOUS SOLUTIONS</span><span class="status" id="status">Select a salt</span></div>
- <div class="lab">
-  <div class="beakerArea">
-   <svg viewBox="0 0 320 300" role="img" aria-label="Beaker showing dissolved ions">
-    <defs><clipPath id="inside"><path d="M73 63 L88 263 Q160 280 232 263 L247 63 Z"/></clipPath><linearGradient id="liq" x2="0" y2="1"><stop stop-color="#65dfff" stop-opacity=".25"/><stop offset="1" stop-color="#168bc5" stop-opacity=".55"/></linearGradient></defs>
-    <path class="beaker" d="M63 55 L80 266 Q160 286 240 266 L257 55 M55 55 H265"/>
-    <g clip-path="url(#inside)"><path id="liquid" d="M70 145 Q160 137 250 145 L260 290 H60 Z" fill="url(#liq)"/><g id="ions"></g><g id="crystals"></g></g>
-    <text x="160" y="34" text-anchor="middle" fill="#c9eaff" font-size="12" font-weight="700">H₂O + SELECTED SALT</text>
-    <text id="beakerLabel" x="160" y="292" text-anchor="middle" fill="#d6efff" font-size="10">Empty beaker</text>
-   </svg>
-  </div>
-  <div class="meter">
-   <h2>Digital pH meter</h2><div class="reading" id="ph">—</div><div class="readlabel" id="phLabel">Waiting for solution</div>
-   <div class="scale"><div class="needle" id="needle"></div></div><div class="scaleLabels"><span>0 Acidic</span><span>7 Neutral</span><span>14 Basic</span></div>
-   <div class="card" style="margin-top:17px"><span class="tag">OBSERVATION</span><p id="observation" style="margin:8px 0 0">Choose one of the three salts, then press “Dissolve salt”.</p></div>
-  </div>
+ <div class="top"><span>VIRTUAL SUBMERSIBLE • DEPTH SIMULATOR</span><span id="diveStatus">Surface waters</span></div>
+ <div id="ocean">
+  <div class="sunlight" id="sunlight"></div>
+  <div class="zone" id="zone">Sunlight zone</div><div id="glow"></div>
+  <div class="depthline" style="top:25%">200 m • Twilight begins</div><div class="depthline" style="top:52%">1,000 m • Midnight zone</div><div class="depthline" style="top:78%">4,000 m • Abyssal zone</div>
+  <svg id="fish" viewBox="0 0 360 160" aria-label="Illustrative fish anatomy">
+   <path class="fin" d="M92 79 L34 35 L49 91 L34 126 Z"/><path class="fin" d="M158 48 L185 13 L205 52Z"/><path class="fin" d="M161 111 L188 143 L207 108Z"/>
+   <path class="fishbody" d="M55 80 Q82 27 188 38 Q273 39 310 80 Q273 121 188 122 Q82 133 55 80Z"/>
+   <path class="gill" d="M102 53 Q91 80 103 108 M112 50 Q101 80 114 111 M122 50 Q112 80 125 112"/>
+   <ellipse class="bladder" id="bladder" cx="194" cy="80" rx="36" ry="13"/>
+   <circle class="eye" id="eye" cx="275" cy="72" r="8"/><circle cx="278" cy="70" r="2.5" fill="#fff"/>
+   <path d="M296 91 Q308 98 317 90" fill="none" stroke="#d7f5ff" stroke-width="2"/>
+  </svg>
  </div>
- <div class="controls"><button class="primary" id="dissolve">＋ Dissolve salt</button><button id="stir" disabled>↻ Stir solution</button><button id="water" disabled>＋ Add water</button><button id="reset">Reset experiment</button></div>
+ <div class="stats">
+  <div class="stat"><span>Depth</span><b id="depthVal">0 m</b></div>
+  <div class="stat"><span>Pressure (approx.)</span><b id="pressure">1 atm</b></div>
+  <div class="stat"><span>Water temperature*</span><b id="temp">20°C</b></div>
+ </div>
+ <div class="controls"><label><span>Control your diving depth</span><span id="depthRead">0 m</span></label><input id="depth" type="range" min="0" max="6000" step="50" value="0"><div class="ticks"><span>0 m</span><span>200 m</span><span>1,000 m</span><span>4,000 m</span><span>6,000 m</span></div></div>
 </section>
 <aside class="panel side">
- <h2>Choose the salt</h2>
- <div class="salts">
-  <button class="salt active" data-salt="nahco3"><span><b>Sodium bicarbonate</b><small>NaHCO₃</small></span><span>①</span></button>
-  <button class="salt" data-salt="nh4hco3"><span><b>Ammonium bicarbonate</b><small>NH₄HCO₃</small></span><span>②</span></button>
-  <button class="salt" data-salt="nh4cl"><span><b>Ammonium chloride</b><small>NH₄Cl</small></span><span>③</span></button>
- </div>
- <div class="card"><b id="saltTitle">Sodium bicarbonate</b><div class="equation" id="equation">NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)</div><p id="chem" style="margin:8px 0 0">The bicarbonate ion can accept a proton from water, producing a mildly basic solution.</p></div>
- <div class="card"><b>Think like a scientist</b><p style="margin:7px 0 0">Which ion reacts with water? Which ion is mostly a spectator? Compare the three pH readings under the same stated conditions.</p></div>
- <div class="card"><b>Experiment controls</b><p id="condition" style="margin:7px 0 0">Model conditions: room temperature, same initial water volume, and equal small salt portions. Values are illustrative classroom estimates.</p></div>
+ <h2>What changes as we dive?</h2><p class="muted">Move the depth slider and observe the environment and the illustrative fish model.</p>
+ <div class="adapt"><b>👁️ Eyes</b><p id="eyesText">At the surface, many fish have eyes suited to brighter conditions. Eye size and structure vary by species.</p></div>
+ <div class="adapt"><b>🫧 Swim bladder (air bladder)</b><p id="bladderText">A gas-filled swim bladder can help many bony fish control buoyancy. Gas volume is affected by pressure.</p></div>
+ <div class="adapt"><b>🫁 Gills</b><p id="gillsText">Fish use gills to extract dissolved oxygen from water at all depths. Gill design varies with species and lifestyle.</p></div>
+ <div class="adapt"><b>✨ Other adaptations</b><p id="otherText">Sunlight supports photosynthesis in the upper ocean. Deeper down, some animals use sensitive senses or produce their own light.</p></div>
+ <button id="surface">Return to surface</button>
 </aside>
 </main>
-<footer>Important: displayed pH values are approximate teaching values, not certified measurements. Real pH depends on concentration, temperature, water quality, and CO₂ exchange with air. Bicarbonate is amphiprotic. This visual model illustrates the dominant acid–base behaviour and is not a full equilibrium solver.</footer>
+<footer>*Temperature is an illustrative profile, not a universal ocean measurement. Pressure estimate uses about +1 atmosphere per 10 m of seawater (plus 1 atm at the surface). Fish anatomy shown is schematic: deep-sea species are diverse. Some have large light-sensitive eyes, others reduced eyes; many deep-sea fishes have reduced or absent gas swim bladders. Gills remain respiratory organs throughout fish depth ranges. Gas-volume graphic illustrates compression only, not active biological regulation or a prediction for every species.</footer>
 <script>
-const data={
- nahco3:{name:'Sodium bicarbonate',formula:'NaHCO₃',eq:'NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)',ph:8.3,label:'Mildly basic',chem:'HCO₃⁻ can act as a base by accepting H⁺ from water. The solution is usually mildly basic. Na⁺ is essentially a spectator ion in this acid–base explanation.',obs:'The solution becomes mildly basic. Bicarbonate can accept a proton from water, so the pH is slightly above 7.'},
- nh4hco3:{name:'Ammonium bicarbonate',formula:'NH₄HCO₃',eq:'NH₄HCO₃(s) → NH₄⁺(aq) + HCO₃⁻(aq)',ph:7.8,label:'Near neutral / slightly basic',chem:'NH₄⁺ is a weak acid, while HCO₃⁻ is amphiprotic (it can donate or accept H⁺). Their competing effects give a solution that is commonly near neutral to slightly basic under typical dilute conditions.',obs:'The ions have competing acid–base effects. HCO₃⁻ can accept or donate H⁺, while NH₄⁺ is a weak acid. The solution is often near neutral to slightly basic.'},
- nh4cl:{name:'Ammonium chloride',formula:'NH₄Cl',eq:'NH₄Cl(s) → NH₄⁺(aq) + Cl⁻(aq)',ph:5.3,label:'Acidic',chem:'NH₄⁺ reacts with water and donates a proton, producing H₃O⁺. Cl⁻ is the conjugate base of a strong acid and is essentially a spectator ion.',obs:'The solution becomes acidic because NH₄⁺ donates a proton to water, increasing H₃O⁺. Chloride is essentially a spectator ion.'}
-};
-let selected='nahco3',dissolved=false,waterAdded=0,stirred=false;
-const $=id=>document.getElementById(id);
-function choose(key){selected=key;document.querySelectorAll('.salt').forEach(b=>b.classList.toggle('active',b.dataset.salt===key));reset(false);const d=data[key];$('saltTitle').textContent=d.name;$('equation').textContent=d.eq;$('chem').textContent=d.chem;$('status').textContent='Salt selected'}
-function render(){const d=data[selected];if(!dissolved){$('ph').textContent='—';$('phLabel').textContent='Waiting for solution';$('needle').style.left='50%';$('observation').textContent='Add the selected salt to the water to begin.';$('liquid').setAttribute('d','M70 145 Q160 137 250 145 L260 290 H60 Z');$('ions').innerHTML='';$('beakerLabel').textContent='Water ready';$('status').textContent='Ready to dissolve';return}
- const ph=Math.max(0,Math.min(14,d.ph+(waterAdded? (7-d.ph)*(waterAdded*.08):0)));$('ph').textContent=ph.toFixed(1);$('phLabel').textContent=ph<6.8?'Acidic solution':ph>7.2?'Basic solution':'Near neutral solution';$('needle').style.left=(ph/14*100)+'%';$('observation').textContent=d.obs+(waterAdded?' Dilution added; exact pH change depends on the real solution equilibrium.':'');$('status').textContent='Salt dissolved';$('beakerLabel').textContent=d.formula+' dissolved';
- const ions=$('ions');ions.innerHTML='';const labels=selected==='nahco3'?['Na⁺','HCO₃⁻']:selected==='nh4hco3'?['NH₄⁺','HCO₃⁻']:['NH₄⁺','Cl⁻'];
- for(let i=0;i<12;i++){let x=92+(i%4)*44+(Math.random()*8-4),y=165+Math.floor(i/4)*34+(Math.random()*8-4);let g=document.createElementNS('http://www.w3.org/2000/svg','g');let c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',17);c.setAttribute('class','ionbg');let t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',x);t.setAttribute('y',y+4);t.setAttribute('text-anchor','middle');t.setAttribute('class','ion');t.setAttribute('font-size',labels[i%2].length>4?'10':'13');t.textContent=labels[i%2];g.append(c,t);ions.append(g)}
+const $=id=>document.getElementById(id),depth=$('depth');
+function update(){
+ const d=+depth.value,atm=1+d/10;
+ $('depthVal').textContent=d.toLocaleString()+' m';$('depthRead').textContent=d.toLocaleString()+' m';$('pressure').textContent=(Math.round(atm*10)/10)+' atm';
+ let temp=d<200?20-d*.045:d<1000?11-(d-200)*.004:7-(d-1000)*.0012;temp=Math.max(2,Math.round(temp*10)/10);$('temp').textContent=temp+'°C';
+ let zone,eyeText,bladderText,gillsText,otherText,eyeR,bladderRx,bladderRy,glow;
+ if(d<200){zone='Sunlight zone';eyeText='Light is available. Many fish rely on vision to find food, avoid predators, and navigate.';bladderText='Many bony fish have a gas-filled swim bladder. It helps control buoyancy; gas volume changes with pressure.';gillsText='Gills extract dissolved oxygen from water. Their structure is adapted to the fish’s activity and environment.';otherText='Sunlight allows photosynthesis by phytoplankton and algae in the upper ocean.';eyeR=8;bladderRx=36;bladderRy=13;glow=0}
+ else if(d<1000){zone='Twilight zone';eyeText='Sunlight becomes very dim. Some species have larger, more light-sensitive eyes; others rely more on other senses.';bladderText='As pressure rises, gas spaces are compressed. Some deep-living species have reduced swim bladders or different buoyancy strategies.';gillsText='Gills continue extracting dissolved oxygen. Oxygen availability can vary between ocean layers.';otherText='Many animals migrate vertically. Some species have reflective tissues or bioluminescence.';eyeR=12;bladderRx=22;bladderRy=8;glow=.25}
+ else if(d<4000){zone='Midnight zone';eyeText='No sunlight reaches this zone. Some fish have very large sensitive eyes; others have tiny or reduced eyes. There is no single deep-sea eye design.';bladderText='Many deep-sea fishes have a reduced or absent gas swim bladder. High pressure compresses gas, making gas-based buoyancy challenging.';gillsText='Gills still function in water, but their size and design are species-specific—not simply smaller or larger because of depth.';otherText='Bioluminescence is common in many deep-sea groups and can help with communication, camouflage, or attracting prey.';eyeR=15;bladderRx=8;bladderRy=4;glow=.8}
+ else{zone='Abyssal zone';eyeText='In permanent darkness, eye adaptations vary: some animals retain sensitive eyes, while others have strongly reduced eyes.';bladderText='A gas-filled swim bladder is often absent or greatly reduced in many abyssal fishes. Other tissues and body chemistry can contribute to buoyancy.';gillsText='Gills remain essential for gas exchange. Deep-sea species are adapted to local oxygen, pressure, and cold conditions.';otherText='Food is scarce. Many animals conserve energy, have slow lifestyles, and depend on marine snow or occasional food falls.';eyeR=9;bladderRx=4;bladderRy=3;glow=1}
+ $('zone').textContent=zone;$('diveStatus').textContent=zone;$('eyesText').textContent=eyeText;$('bladderText').textContent=bladderText;$('gillsText').textContent=gillsText;$('otherText').textContent=otherText;
+ $('eye').setAttribute('r',eyeR);$('bladder').setAttribute('rx',bladderRx);$('bladder').setAttribute('ry',bladderRy);
+ $('glow').style.opacity=glow;$('sunlight').style.opacity=String(Math.max(0,1-d/850));$('ocean').style.filter=`brightness(${Math.max(.42,1-d/10000)})`;
 }
-function reset(update=true){dissolved=false;waterAdded=0;stirred=false;$('stir').disabled=true;$('water').disabled=true;$('dissolve').disabled=false;if(update)render();else render()}
-document.querySelectorAll('.salt').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.salt)));
-$('dissolve').onclick=()=>{dissolved=true;$('stir').disabled=false;$('water').disabled=false;$('dissolve').disabled=true;render();$('observation').textContent=data[selected].obs};
-$('stir').onclick=()=>{stirred=!stirred;$('ions').style.transition='transform .5s';$('ions').style.transform=stirred?'translate(5px,-4px)':'translate(0,0)';$('observation').textContent='Stirring helps the salt dissolve and spreads dissolved ions through the water. Stirring does not change the identity of the ions.'};
-$('water').onclick=()=>{waterAdded=Math.min(5,waterAdded+1);$('liquid').setAttribute('d',`M70 ${145+waterAdded*5} Q160 ${137+waterAdded*5} 250 ${145+waterAdded*5} L260 290 H60 Z`);render()};
-$('reset').onclick=()=>reset();
-choose('nahco3');
-</script>
-</body></html>
+depth.addEventListener('input',update);$('surface').onclick=()=>{depth.value=0;update()};update();
+</script></body></html>
