@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Bio Beast — Water Molecules Lab</title>
+<style>
+:root{--bg:#071426;--panel:#10243c;--cyan:#56d9ff;--muted:#a9bfd2;--red:#ff5c68;--green:#55e6a5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#15395a 0,#071426 58%);color:#f4f9ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+header{padding:18px 18px 10px;max-width:1100px;margin:auto} .eyebrow{color:var(--cyan);font-size:12px;letter-spacing:2px;font-weight:800}
+h1{font-size:clamp(23px,5vw,36px);margin:5px 0 2px;line-height:1.1}header p{margin:6px 0;color:var(--muted);font-size:14px}
+main{max-width:1100px;margin:auto;padding:8px 14px 28px;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:14px}
+.stageWrap,.side{background:rgba(13,32,54,.9);border:1px solid #244968;border-radius:18px;overflow:hidden;box-shadow:0 14px 40px #0005}
+.stageTop{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid #244968;font-size:13px;color:var(--muted)}
+.status{color:var(--green);font-weight:700}canvas{display:block;width:100%;height:min(66vh,570px);min-height:360px;touch-action:none;background:radial-gradient(ellipse at center,#0d2945 0,#08182b 72%)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border-top:1px solid #244968}
+button{border:1px solid #356080;background:#173653;color:white;border-radius:11px;padding:11px 13px;font-weight:700;font-size:13px;cursor:pointer}
+button.primary{background:linear-gradient(135deg,#087ca9,#1765a8);border-color:#48cfff}button:active{transform:scale(.98)}
+.side{padding:15px;display:flex;flex-direction:column;gap:13px}
+h2{font-size:16px;margin:0}.hint{font-size:13px;color:var(--muted);line-height:1.5;margin:0}
+.legend{display:grid;gap:9px;font-size:13px}.key{display:flex;align-items:center;gap:9px}.dot{width:13px;height:13px;border-radius:50%;display:inline-block}.line{width:28px;border-top:3px solid #e8f4ff}.dash{width:28px;border-top:3px dashed var(--cyan)}
+.info{padding:12px;border-radius:12px;background:#0a1b2d;border:1px solid #244968;min-height:92px;font-size:13px;line-height:1.5;color:#d8e8f5}
+.mission{padding:12px;border-radius:12px;background:#102e3c;border:1px solid #23617a;font-size:13px;line-height:1.5}
+.counter{font-size:12px;color:var(--muted)}.counter b{color:white}
+footer{max-width:1100px;margin:0 auto;padding:0 16px 22px;color:#7894ad;font-size:11px;line-height:1.5}
+@media(max-width:760px){main{grid-template-columns:1fr}.side{order:2}canvas{height:54vh;min-height:330px}.stageTop{font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">BIO BEAST • INTERACTIVE SCIENCE</div><h1>Build a Water Network</h1><p>Drag the water molecules. Bring a partially positive hydrogen near a partially negative oxygen.</p></header>
+<main>
+<section class="stageWrap">
+ <div class="stageTop"><span>WATER MOLECULES • 2D INTERACTIVE MODEL</span><span class="status" id="status">Ready to explore</span></div>
+ <canvas id="scene" aria-label="Interactive water molecule simulation"></canvas>
+ <div class="controls">
+  <button class="primary" id="add">＋ Add molecule</button><button id="rotate">↻ Rotate selected</button><button id="labels">Hide labels</button><button id="reset">Reset scene</button>
+ </div>
+</section>
+<aside class="side">
+ <h2>How to experiment</h2><p class="hint">1. Touch and drag a molecule by its oxygen or hydrogen atom.<br>2. Move an H (δ+) close to another molecule's O (δ−).<br>3. Watch a dashed hydrogen-bond line appear when the geometry is suitable.</p>
+ <div class="legend">
+  <div class="key"><i class="dot" style="background:#ff5967"></i> Oxygen (δ−)</div>
+  <div class="key"><i class="dot" style="background:#f2f7ff;border:1px solid #a8c0d4"></i> Hydrogen (δ+)</div>
+  <div class="key"><i class="line"></i> Covalent bond (O–H)</div>
+  <div class="key"><i class="dash"></i> Hydrogen bond (between molecules)</div>
+ </div>
+ <div class="info" id="info"><b>Explore:</b> A water molecule is bent. Its O–H covalent bonds are inside one molecule. Hydrogen bonds form between different water molecules.</div>
+ <div class="mission"><b>MISSION</b><br>Connect 3 water molecules in one hydrogen-bond network. Drag them into position and watch the counter.</div>
+ <div class="counter">Hydrogen bonds formed: <b id="bondCount">0</b> &nbsp;•&nbsp; Molecules: <b id="molCount">3</b></div>
+</aside>
+</main>
+<footer>Learning model: atoms and distances are schematic, not to scale. Hydrogen-bond formation is simplified for visual learning; real interactions depend on 3D orientation, distance, and the surrounding environment.</footer>
+<script>
+(()=>{
+const canvas=document.getElementById('scene'),ctx=canvas.getContext('2d');
+const info=document.getElementById('info'),status=document.getElementById('status');
+const bondCount=document.getElementById('bondCount'),molCount=document.getElementById('molCount');
+let molecules=[],selected=null,drag=null,showLabels=true,nextId=1,bonds=[];
+const colors={o:'#ff5967',h:'#f4f8ff',cyan:'#56d9ff'};
+function resize(){const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);canvas.width=r.width*d;canvas.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);draw()}
+function makeMol(x,y,a=0){return {id:nextId++,x,y,a}}
+function atoms(m){const arm=42,ang=.91;return [{type:'O',x:m.x,y:m.y,charge:'δ−'},{type:'H',x:m.x+Math.cos(m.a-ang)*arm,y:m.y+Math.sin(m.a-ang)*arm,charge:'δ+'},{type:'H',x:m.x+Math.cos(m.a+ang)*arm,y:m.y+Math.sin(m.a+ang)*arm,charge:'δ+'}]}
+function calcBonds(){bonds=[];for(let i=0;i<molecules.length;i++)for(let j=0;j<molecules.length;j++){if(i===j)continue;const a=atoms(molecules[i]),b=atoms(molecules[j]);for(let h=1;h<=2;h++){const H=a[h],O=b[0],dx=O.x-H.x,dy=O.y-H.y,d=Math.hypot(dx,dy);const toward=(dx*Math.cos(molecules[i].a+(h===1?-.91:.91))+dy*Math.sin(molecules[i].a+(h===1?-.91:.91)))/Math.max(d,1);if(d<105&&d>35&&toward<-.15)bonds.push({x1:H.x,y1:H.y,x2:O.x,y2:O.y})}}}
+function draw(){if(!ctx)return;const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);
+ // subtle grid
+ ctx.strokeStyle='rgba(100,170,210,.08)';ctx.lineWidth=1;for(let x=20;x<w;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=20;y<h;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ calcBonds();
+ bonds.forEach(b=>{ctx.save();ctx.setLineDash([5,7]);ctx.strokeStyle=colors.cyan;ctx.lineWidth=3;ctx.shadowColor=colors.cyan;ctx.shadowBlur=9;ctx.beginPath();ctx.moveTo(b.x1,b.y1);ctx.lineTo(b.x2,b.y2);ctx.stroke();ctx.restore()});
+ molecules.forEach(m=>{const a=atoms(m);ctx.strokeStyle='#dceafa';ctx.lineWidth=7;ctx.lineCap='round';for(let i=1;i<=2;i++){ctx.beginPath();ctx.moveTo(a[0].x,a[0].y);ctx.lineTo(a[i].x,a[i].y);ctx.stroke()}
+ a.forEach((p,i)=>{const rad=i===0?23:15;ctx.beginPath();ctx.fillStyle=i===0?colors.o:colors.h;ctx.shadowColor=i===0?'#ff5967':'#a9d9ff';ctx.shadowBlur=14;ctx.arc(p.x,p.y,rad,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle=i===0?'#ff9aa1':'#a9c4d9';ctx.lineWidth=1.5;ctx.stroke();ctx.fillStyle=i===0?'white':'#263b50';ctx.font='bold '+(i===0?15:12)+'px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.type,p.x,p.y);if(showLabels){ctx.fillStyle=i===0?'#ffb5ba':'#d9efff';ctx.font='bold 11px system-ui';ctx.fillText(p.charge,p.x+(i===0?0:0),p.y+rad+12)}})
+ if(selected===m){ctx.beginPath();ctx.arc(m.x,m.y,58,0,Math.PI*2);ctx.strokeStyle='#56d9ff';ctx.setLineDash([4,5]);ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([])}
+ });
+ bondCount.textContent=bonds.length;molCount.textContent=molecules.length;
+ if(bonds.length){status.textContent='Hydrogen bond detected';}else status.textContent='Move molecules to explore';
+}
+function pos(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+function hit(p){for(let k=molecules.length-1;k>=0;k--){const m=molecules[k],a=atoms(m);for(let i=a.length-1;i>=0;i--)if(Math.hypot(p.x-a[i].x,p.y-a[i].y)<26)return m;if(Math.hypot(p.x-m.x,p.y-m.y)<58)return m}return null}
+canvas.addEventListener('pointerdown',e=>{const p=pos(e);selected=hit(p);if(selected){drag={m:selected,dx:p.x-selected.x,dy:p.y-selected.y};canvas.setPointerCapture(e.pointerId);info.innerHTML='<b>Nice!</b> You selected a water molecule. Drag it to explore how molecular orientation affects attraction.'}else{info.innerHTML='<b>Try again:</b> Touch one of the colored atoms or the area around a molecule to select it.'}draw()});
+canvas.addEventListener('pointermove',e=>{if(!drag)return;const p=pos(e);drag.m.x=p.x-drag.dx;drag.m.y=p.y-drag.dy;draw()});
+function stop(){drag=null;draw();if(bonds.length)info.innerHTML='<b>Hydrogen bond formed!</b> The partially positive H of one water molecule is attracted to the partially negative O of another.'}
+canvas.addEventListener('pointerup',stop);canvas.addEventListener('pointercancel',stop);
+document.getElementById('add').onclick=()=>{const w=canvas.clientWidth,h=canvas.clientHeight;molecules.push(makeMol(w*.5+(Math.random()-.5)*100,h*.5+(Math.random()-.5)*100,Math.random()*Math.PI*2));selected=molecules.at(-1);draw();info.innerHTML='<b>New molecule added.</b> Drag it near another molecule and adjust its orientation.'};
+document.getElementById('rotate').onclick=()=>{if(!selected){info.innerHTML='<b>Select a molecule first.</b> Then use Rotate selected.';return}selected.a+=Math.PI/6;draw();info.innerHTML='<b>Orientation changed.</b> Notice how changing the direction of a molecule can affect whether a hydrogen bond forms.'};
+document.getElementById('labels').onclick=e=>{showLabels=!showLabels;e.target.textContent=showLabels?'Hide labels':'Show labels';draw()};
+document.getElementById('reset').onclick=()=>{nextId=1;init();info.innerHTML='<b>Scene reset.</b> Start by dragging a molecule toward another one.'};
+function init(){const w=canvas.clientWidth||600,h=canvas.clientHeight||420;molecules=[makeMol(w*.32,h*.48,.3),makeMol(w*.66,h*.43,Math.PI),makeMol(w*.5,h*.78,-1.2)];selected=null;draw()}
+window.addEventListener('resize',resize);resize();init();
+})();
+</script>
+</body></html>
